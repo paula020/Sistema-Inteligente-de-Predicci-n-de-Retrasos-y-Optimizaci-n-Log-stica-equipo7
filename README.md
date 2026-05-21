@@ -217,6 +217,38 @@ curl -X POST http://localhost:8000/recomendaciones/ejecutiva \
 pytest -v
 ```
 
+### Complemento Fase 3 (Pipeline con Prefect)
+
+Ejecuta un flujo de orquestacion para limpieza + entrenamiento MVP + reporte:
+
+```bash
+python flows/prefect_training_flow.py
+```
+
+Nota:
+- En Python 3.13 el script corre en modo local fallback si Prefect no esta instalado.
+- Para usar Prefect completo, usar Python 3.11/3.12 o un entorno con wheels compatibles.
+
+Salida esperada:
+
+- Reporte JSON en `reports/prefect_training_run_*.json`
+- Modelo MVP actualizado en `models/`
+
+### Complemento Fase 5 (Monitoreo inicial)
+
+Genera un reporte de monitoreo con:
+
+- Calidad de datos (nulos, duplicados, tasa target)
+- Drift por feature numerica usando PSI
+
+```bash
+python scripts/run_monitoring.py
+```
+
+Salida esperada:
+
+- Reporte JSON en `reports/monitoring_report_*.json`
+
 ---
 
 ## Configuración (.env)

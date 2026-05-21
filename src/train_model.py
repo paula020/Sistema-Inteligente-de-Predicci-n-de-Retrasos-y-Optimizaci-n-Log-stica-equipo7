@@ -248,13 +248,13 @@ def _loggear_resultados_mlflow(
 
     try:
         if flavor == "xgboost":
-            import mlflow.xgboost
+            import mlflow.xgboost as mlflow_xgboost
 
-            mlflow.xgboost.log_model(modelo, artifact_path="model")
+            mlflow_xgboost.log_model(modelo, artifact_path="model")
         elif flavor == "lightgbm":
-            import mlflow.lightgbm
+            import mlflow.lightgbm as mlflow_lightgbm
 
-            mlflow.lightgbm.log_model(modelo, artifact_path="model")
+            mlflow_lightgbm.log_model(modelo, artifact_path="model")
         else:
             mlflow.sklearn.log_model(modelo, artifact_path="model")
     except Exception as exc:  # pragma: no cover

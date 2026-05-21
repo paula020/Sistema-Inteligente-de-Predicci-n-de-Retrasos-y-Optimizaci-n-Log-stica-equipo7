@@ -17,7 +17,7 @@ Componentes:
       reusando el encoder entrenado (sin re-fit) y alineando las
       columnas one-hot con la lista guardada (rellenando con 0).
 
-⚠️  Importante: las features ex-post (`days_for_shipping_real`,
+las features ex-post (`days_for_shipping_real`,
 `delay_days`, `delivery_status`, etc.) NUNCA llegan a la inferencia
 porque fueron eliminadas del set de entrenamiento.
 """

@@ -305,8 +305,8 @@ def test_entrenar_logistic_regression(monkeypatch, tmp_path):
     """Verifica entrenamiento de LR sin tocar el tracking real de MLflow."""
     import mlflow
 
-    monkeypatch.setattr(mlflow, "set_tracking_uri", lambda *a, **k: None)
-    monkeypatch.setattr(mlflow, "set_experiment", lambda *a, **k: None)
+    mlflow.set_tracking_uri((tmp_path / "mlruns").as_uri())
+    mlflow.set_experiment("tests")
     monkeypatch.setattr(mlflow, "log_params", lambda *a, **k: None)
     monkeypatch.setattr(mlflow, "log_metrics", lambda *a, **k: None)
     monkeypatch.setattr(mlflow, "log_artifact", lambda *a, **k: None)
@@ -327,11 +327,11 @@ def test_entrenar_logistic_regression(monkeypatch, tmp_path):
     assert len(resultado.feature_importance) == X_train.shape[1]
 
 
-def test_entrenar_random_forest(monkeypatch):
+def test_entrenar_random_forest(monkeypatch, tmp_path):
     import mlflow
 
-    monkeypatch.setattr(mlflow, "set_tracking_uri", lambda *a, **k: None)
-    monkeypatch.setattr(mlflow, "set_experiment", lambda *a, **k: None)
+    mlflow.set_tracking_uri((tmp_path / "mlruns").as_uri())
+    mlflow.set_experiment("tests")
     monkeypatch.setattr(mlflow, "log_params", lambda *a, **k: None)
     monkeypatch.setattr(mlflow, "log_metrics", lambda *a, **k: None)
     monkeypatch.setattr(mlflow, "log_artifact", lambda *a, **k: None)
@@ -347,11 +347,15 @@ def test_entrenar_random_forest(monkeypatch):
     assert resultado.metricas["roc_auc"] > 0.5  # mejor que random
 
 
-def test_comparar_y_seleccionar_mejor():
+def test_comparar_y_seleccionar_mejor(monkeypatch):
     from src.train_model import (
         ResultadoEntrenamiento, comparar_modelos, seleccionar_mejor_modelo,
     )
+    from src import train_model as tm
     import numpy as np
+
+    monkeypatch.setattr(tm, "guardar_modelo", lambda *a, **k: Path("dummy_alias.joblib"))
+    monkeypatch.setattr(tm, "guardar_reporte_json", lambda *a, **k: Path("dummy_report.json"))
 
     # Mock de dos resultados con distintas métricas
     class _DummyModel:
