@@ -142,10 +142,32 @@ st.markdown(CSS, unsafe_allow_html=True)
 # ============================================================================
 @st.cache_data(show_spinner=False)
 def cargar_dataset_historico() -> pd.DataFrame | None:
-    """Carga el parquet limpio de DataCo si está disponible."""
-    ruta = PROJECT_ROOT / "data" / "processed" / "dataco_clean.parquet"
-    if ruta.exists():
-        return pd.read_parquet(ruta)
+    """Carga el dataset histórico con fallback a CSV crudo en cloud."""
+    ruta_parquet = PROJECT_ROOT / "data" / "processed" / "dataco_clean.parquet"
+    if ruta_parquet.exists():
+        return pd.read_parquet(ruta_parquet)
+
+    # Fallback para despliegues cloud donde no existe el parquet procesado.
+    ruta_csv = PROJECT_ROOT / "DataCoSupplyChainDataset.csv"
+    if ruta_csv.exists():
+        df = pd.read_csv(ruta_csv, encoding="latin-1")
+        renombrar = {
+            "Late_delivery_risk": "late_delivery_risk",
+            "Shipping Mode": "shipping_mode",
+            "Market": "market",
+            "Order Region": "order_region",
+            "Customer Segment": "customer_segment",
+            "Order Country": "order_country",
+            "Category Name": "category_name",
+        }
+        df = df.rename(columns=renombrar)
+
+        if "late_delivery_risk" in df.columns:
+            df["late_delivery_risk"] = pd.to_numeric(
+                df["late_delivery_risk"], errors="coerce"
+            ).fillna(0).clip(0, 1)
+        return df
+
     return None
 
 
