@@ -1,0 +1,12 @@
+build-essential
+cmake
+pkg-config
+zlib1g-dev
+libjpeg-dev
+libpng-dev
+libfreetype6-dev
+libopenjp2-7-dev
+libtiff-dev
+gfortran
+libopenblas-dev
+liblapack-dev
