@@ -1,0 +1,63 @@
+{
+  "feature_columns": [
+    "shipping_mode",
+    "customer_segment",
+    "market",
+    "order_region",
+    "order_country",
+    "category_name",
+    "sales",
+    "order_item_quantity",
+    "order_item_discount",
+    "order_item_product_price",
+    "days_for_shipment_scheduled",
+    "order_month",
+    "order_dayofweek"
+  ],
+  "categorical_columns": [
+    "shipping_mode",
+    "customer_segment",
+    "market",
+    "order_region",
+    "order_country",
+    "category_name"
+  ],
+  "numerical_columns": [
+    "sales",
+    "order_item_quantity",
+    "order_item_discount",
+    "order_item_product_price",
+    "days_for_shipment_scheduled",
+    "order_month",
+    "order_dayofweek"
+  ],
+  "target": "late_delivery_risk",
+  "modelo": "random_forest",
+  "metricas_test": {
+    "accuracy": 0.6983159760691336,
+    "precision": 0.8470533208606174,
+    "recall": 0.5488987674277632,
+    "f1_score": 0.666135360470819,
+    "roc_auc": 0.7401144094958669
+  },
+  "comparativa": [
+    {
+      "modelo": "random_forest",
+      "accuracy": 0.6983159760691336,
+      "precision": 0.8470533208606174,
+      "recall": 0.5488987674277632,
+      "f1_score": 0.666135360470819,
+      "roc_auc": 0.7401144094958669
+    },
+    {
+      "modelo": "logistic_regression",
+      "accuracy": 0.6964602260137381,
+      "precision": 0.8488197679008447,
+      "recall": 0.5431400282885431,
+      "f1_score": 0.6624156732279827,
+      "roc_auc": 0.7338828921072943
+    }
+  ],
+  "ruta_modelo": "C:\\Users\\paula\\Documents\\proyecto2\\Sistema-Inteligente-de-Predicci-n-de-Retrasos-y-Optimizaci-n-Log-stica-equipo7\\models\\delay_model.pkl",
+  "version_features": "mvp-v1"
+}

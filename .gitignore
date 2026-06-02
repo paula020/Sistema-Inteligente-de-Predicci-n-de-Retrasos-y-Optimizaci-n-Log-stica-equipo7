@@ -58,10 +58,15 @@ data/external/*
 !data/README.md
 
 # --- Modelos entrenados --------------------------------------------------------
-models/*
-!models/.gitkeep
 *.pkl
 *.joblib
+*.bin
+*.onnx
+*.h5
+models/*
+!models/.gitkeep
+!models/delay_model.pkl
+!models/feature_columns.json
 *.bin
 *.onnx
 *.h5

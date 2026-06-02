@@ -2,6 +2,9 @@
 # Keep this list lightweight and focused on the app runtime path.
 streamlit>=1.47.0
 plotly>=5.24.0
+pandas>=2.2.0
+numpy>=2.0.0
+scikit-learn>=1.5.0
 joblib>=1.4.0
 loguru>=0.7.0
 pydantic>=2.9.0
