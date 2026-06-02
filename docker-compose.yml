@@ -1,0 +1,98 @@
+# ============================================================================
+# SmartDelay AI 360 - Orquestación de servicios
+# ============================================================================
+# Levanta el stack completo en local:
+#   - api      -> FastAPI (predicciones, scoring, recomendaciones)
+#   - app      -> Streamlit (dashboard ejecutivo)
+#   - mlflow   -> Tracking de experimentos
+#
+# Uso:
+#   docker-compose up --build
+# ============================================================================
+
+services:
+
+  # --------------------------------------------------------------------------
+  # API REST - FastAPI
+  # --------------------------------------------------------------------------
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smartdelay_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app/api
+      - ./src:/app/src
+      - ./models:/app/models
+      - ./data:/app/data
+    command: >
+      uvicorn api.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+    depends_on:
+      - mlflow
+    networks:
+      - smartdelay_net
+
+  # --------------------------------------------------------------------------
+  # Dashboard - Streamlit
+  # --------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smartdelay_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./app:/app/app
+      - ./src:/app/src
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./reports:/app/reports
+    command: >
+      streamlit run app/streamlit_app.py
+      --server.port=8501
+      --server.address=0.0.0.0
+      --server.headless=true
+    depends_on:
+      - api
+    networks:
+      - smartdelay_net
+
+  # --------------------------------------------------------------------------
+  # MLflow - Tracking server
+  # --------------------------------------------------------------------------
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.16.2
+    container_name: smartdelay_mlflow
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlruns
+      - ./models:/models
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri /mlruns
+      --default-artifact-root /mlruns
+    networks:
+      - smartdelay_net
+
+# ----------------------------------------------------------------------------
+# Red interna compartida
+# ----------------------------------------------------------------------------
+networks:
+  smartdelay_net:
+    driver: bridge
