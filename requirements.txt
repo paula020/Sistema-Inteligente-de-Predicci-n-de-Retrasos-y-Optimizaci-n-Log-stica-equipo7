@@ -8,20 +8,20 @@
 # --- Núcleo científico ---------------------------------------------------------
 numpy==1.26.4; python_version < "3.13"
 numpy==2.2.6; python_version >= "3.13" and python_version < "3.14"
-numpy==2.3.1; python_version >= "3.14"
+numpy>=2.3.0,<3; python_version >= "3.14"
 pandas==2.2.2; python_version < "3.13"
 pandas==2.2.3; python_version >= "3.13" and python_version < "3.14"
-pandas==2.3.1; python_version >= "3.14"
+pandas>=2.3.0,<3; python_version >= "3.14"
 scipy==1.13.1; python_version < "3.13"
 scipy==1.14.1; python_version >= "3.13" and python_version < "3.14"
-scipy==1.16.0; python_version >= "3.14"
+scipy>=1.16.0; python_version >= "3.14"
 pyarrow==17.0.0; python_version < "3.13"
 pyarrow==18.1.0; python_version >= "3.13" and python_version < "3.14"
 
 # --- Machine Learning ----------------------------------------------------------
 scikit-learn==1.5.1; python_version < "3.13"
 scikit-learn==1.6.1; python_version >= "3.13" and python_version < "3.14"
-scikit-learn==1.7.0; python_version >= "3.14"
+scikit-learn>=1.7.0; python_version >= "3.14"
 xgboost==2.1.1; python_version < "3.13"
 lightgbm==4.5.0; python_version < "3.13"
 joblib==1.4.2
@@ -42,7 +42,8 @@ pydantic==2.9.2
 pydantic-settings==2.5.2
 
 # --- Dashboard -----------------------------------------------------------------
-streamlit==1.38.0
+streamlit==1.38.0; python_version < "3.14"
+streamlit>=1.47.0; python_version >= "3.14"
 plotly==5.24.1
 altair==5.4.1
 
