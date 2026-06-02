@@ -54,6 +54,7 @@ data/external/*
 *.feather
 *.xlsx
 *.xls
+!DataCoSupplyChainDataset.csv
 !data/README.md
 
 # --- Modelos entrenados --------------------------------------------------------
